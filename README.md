@@ -1,27 +1,109 @@
-# PCA-Matrix-summation-with-a-2D-grid-and-2D-blocks.-Adapt-it-to-integer-matrix-addition.-
+# PCA-Matrix-summation-with-a-2D-grid-and-2D-blocks. <br>Float-and-integer-matrix-addition.
 
 ## Aim:
-To implement Matrix summation with 2D grids and blocks.
+To perform PCA matrix summation with a 2D grid and 2D blocks for float and adapting it to integer matrix addition.
+
+
 ## Procedure:
+1. Include the required files and library.
 
-1.Initialize matrix sizes (nx and ny)
-2.Allocate memory on the host and initialize data
-3.Allocate memory on the device and transfer data from the host to the device
-4.configure grid and block dimensions for the GPU kernel
-5.Launch the GPU kernel (sumMatrixOnGPU2D) to perform matrix addition
-6.Copy the GPU results back to the host
-7.Verify and compare the results between the host and GPU
-8.Free allocated memory
-9.Reset the GPU device
+2. Declare a function sumMatrixOnHost , to perform matrix summation on the host side . Declare three matrix A , B , C . Store the resultant matrix in C.
 
-## Program
+3. Declare a function with _ global _ , which is a CUDA C keyword , to execute the function to perform matrix summation on GPU .
+
+4. Declare Main method/function .
+
+5. In the Main function Set up device and data size of matrix ,Allocate Host Memory and device global memory,Initialize data at host side and then add matrix at host side ,transfer data from host to device.
+
+6. Invoke kernel at host side , check for kernel error and copy kernel result back to host side.
+
+7. Finally Free device global memory,host memory and reset device.
+
+8. Save and Run the Program.
+## Program :
+              Name:Prakash Vasanth
+              Reg:212221040127
+### Common.h
 ```
-Developed by:Prakash vasanth
-Reg.No:212221040127
+/* This program needs to attach infront of all programs!*/
+
+#include <sys/time.h>
+#define _COMMON_H
+
+#define CHECK(call)                                                            \
+{                                                                              \
+    const cudaError_t error = call;                                            \
+    if (error != cudaSuccess)                                                  \
+    {                                                                          \
+        fprintf(stderr, "Error: %s:%d, ", __FILE__, __LINE__);                 \
+        fprintf(stderr, "code: %d, reason: %s\n", error,                       \
+                cudaGetErrorString(error));                                    \
+        exit(1);                                                               \
+    }                                                                          \
+}
+
+#define CHECK_CUBLAS(call)                                                     \
+{                                                                              \
+    cublasStatus_t err;                                                        \
+    if ((err = (call)) != CUBLAS_STATUS_SUCCESS)                               \
+    {                                                                          \
+        fprintf(stderr, "Got CUBLAS error %d at %s:%d\n", err, __FILE__,       \
+                __LINE__);                                                     \
+        exit(1);                                                               \
+    }                                                                          \
+}
+
+#define CHECK_CURAND(call)                                                     \
+{                                                                              \
+    curandStatus_t err;                                                        \
+    if ((err = (call)) != CURAND_STATUS_SUCCESS)                               \
+    {                                                                          \
+        fprintf(stderr, "Got CURAND error %d at %s:%d\n", err, __FILE__,       \
+                __LINE__);                                                     \
+        exit(1);                                                               \
+    }                                                                          \
+}
+
+#define CHECK_CUFFT(call)                                                      \
+{                                                                              \
+    cufftResult err;                                                           \
+    if ( (err = (call)) != CUFFT_SUCCESS)                                      \
+    {                                                                          \
+        fprintf(stderr, "Got CUFFT error %d at %s:%d\n", err, __FILE__,        \
+                __LINE__);                                                     \
+        exit(1);                                                               \
+    }                                                                          \
+}
+
+#define CHECK_CUSPARSE(call)                                                   \
+{                                                                              \
+    cusparseStatus_t err;                                                      \
+    if ((err = (call)) != CUSPARSE_STATUS_SUCCESS)                             \
+    {                                                                          \
+        fprintf(stderr, "Got error %d at %s:%d\n", err, __FILE__, __LINE__);   \
+        cudaError_t cuda_err = cudaGetLastError();                             \
+        if (cuda_err != cudaSuccess)                                           \
+        {                                                                      \
+            fprintf(stderr, "  CUDA error \"%s\" also detected\n",             \
+                    cudaGetErrorString(cuda_err));                             \
+        }                                                                      \
+        exit(1);                                                               \
+    }                                                                          \
+}
+
+inline double seconds()
+{
+    struct timeval tp;
+    struct timezone tzp;
+    int i = gettimeofday(&tp, &tzp);
+    return ((double)tp.tv_sec + (double)tp.tv_usec * 1.e-6);
+}
+
+#endif // _COMMON_H
 ```
-Float Matrix Addition
+
+### 1. Float matrix Addition:              
 ```
-#include "../common/common.h"
 #include <cuda_runtime.h>
 #include <stdio.h>
 
@@ -89,7 +171,7 @@ void checkResult(float *hostRef, float *gpuRef, const int N)
         printf("Arrays do not match.\n\n");
 }
 
-// grid 2D block 2D
+/// grid 2D block 2D
 __global__ void sumMatrixOnGPU2D(float *MatA, float *MatB, float *MatC, int nx,
                                  int ny)
 {
@@ -191,12 +273,13 @@ int main(int argc, char **argv)
 
     return (0);
 }
+
 ```
-Integer Matrix Addition
+### 2. Integer Matrix Addition:
 ```
-#include "common.h"
 #include <cuda_runtime.h>
 #include <stdio.h>
+#include <sys/time.h>
 
 /*
  * This example demonstrates a simple vector sum on the GPU and on the host.
@@ -366,9 +449,11 @@ int main(int argc, char **argv)
 }
 ```
 ## Output:
+### 1. Float Matrix Addition:
+![OP](https://github.com/Rajeshkannan-Muthukumar/PCA-Matrix-summation-with-a-2D-grid-and-2D-blocks.-Adapt-it-to-integer-matrix-addition.-/assets/93901857/13cd1bdd-0e19-47b7-9470-5b6624ee81f6)
 
-![image](https://github.com/Vasanth1234567/PCA-Matrix-summation-with-a-2D-grid-and-2D-blocks.-Adapt-it-to-integer-matrix-addition.-/assets/86919099/9141ff65-e6f2-4298-ac9f-fb5a387e831d)
+### 2. Integer Matrix Addition:
+![OP1](https://github.com/Rajeshkannan-Muthukumar/PCA-Matrix-summation-with-a-2D-grid-and-2D-blocks.-Adapt-it-to-integer-matrix-addition.-/assets/93901857/738ca501-e347-4201-803b-e7effea084aa)
 
-
-## Result
-Thus, matrix summation using 2D grids and 2D blocks has been performed successfully.
+## Result:
+Thus the program to perform PCA matrix summation with a 2D grid and 2D blocks and adapting it to integer matrix addition has been successfully executed.
