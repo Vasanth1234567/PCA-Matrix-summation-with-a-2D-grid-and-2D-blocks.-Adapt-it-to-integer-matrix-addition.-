@@ -1,25 +1,25 @@
-# PCA-Matrix-summation-with-a-2D-grid-and-2D-blocks. <br>Float-and-integer-matrix-addition.
+# Matrix-summation-with-a-2D-grid-and-2D-blocks. <br>Float-and-integer-matrix-addition.
 
 ## Aim:
 To perform PCA matrix summation with a 2D grid and 2D blocks for float and adapting it to integer matrix addition.
 
 
 ## Procedure:
-1. Include the required files and library.
+1. Include the required files and library.<br>
 
-2. Declare a function sumMatrixOnHost , to perform matrix summation on the host side . Declare three matrix A , B , C . Store the resultant matrix in C.
+2. Declare a function sumMatrixOnHost , to perform matrix summation on the host side . Declare three matrix A , B , C . Store the resultant matrix in C.<br>
 
-3. Declare a function with _ global _ , which is a CUDA C keyword , to execute the function to perform matrix summation on GPU .
+3. Declare a function with _ global _ , which is a CUDA C keyword , to execute the function to perform matrix summation on GPU .<br>
 
-4. Declare Main method/function .
+4. Declare Main method/function .<br>
 
-5. In the Main function Set up device and data size of matrix ,Allocate Host Memory and device global memory,Initialize data at host side and then add matrix at host side ,transfer data from host to device.
+5. In the Main function Set up device and data size of matrix ,Allocate Host Memory and device global memory,Initialize data at host side and then add matrix at host side ,transfer data from host to device.<br>
 
-6. Invoke kernel at host side , check for kernel error and copy kernel result back to host side.
+6. Invoke kernel at host side , check for kernel error and copy kernel result back to host side.<br>
 
-7. Finally Free device global memory,host memory and reset device.
+7. Finally Free device global memory,host memory and reset device.<br>
 
-8. Save and Run the Program.
+8. Save and Run the Program.<br>
 ## Program :
               Name:Prakash Vasanth
               Reg:212221040127
